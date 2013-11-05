@@ -43,7 +43,7 @@ def print_repo_dates(repo, indent, spaces):
 def print_repo_urls(repo, indent, spaces):
   pretty_print('<urls>', indent)
   print_simple('url', repo.url.string, indent + spaces, {'of': 'github'})
-  if repo.homepage:
+  if repo.homepage and repo.homepage.string:
     print_simple('url', repo.homepage.string, indent + spaces, {'of': 'homepage'})
   if repo.has_wiki.string != 'False':
     print_simple('url', repo.url.string + '/wiki', indent + spaces, {'of': 'wiki'})
@@ -82,7 +82,7 @@ def print_repos(repos, indent, spaces):
     repo_id = repo.id.string
     if repo_id not in repo_ids:
       repo_ids.append(repo_id)
-      pretty_print('<repository id="%s" fork="%s">' % (repo_id, repo.fork.string), indent + spaces)
+      pretty_print('<repository id="%s" fork="%s">' % (repo_id, repo.fork.string.lower()), indent + spaces)
       print_repo(repo, indent + (2 * spaces), spaces)
       pretty_print('</repository>', indent + spaces)
   pretty_print('</repositories>', indent)
