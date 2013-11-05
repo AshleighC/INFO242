@@ -10,10 +10,13 @@ def unicode_to_string(unicode_obj):
 def pretty_print(text, indent):
   print unicode_to_string((" " * indent) + text)
 
-def print_simple(key, value, indent):
+def print_simple(key, value, indent, attrs={}):
   if isinstance(value, unicode):
     value = compile('<.*>').sub('', value).replace('&', 'and')
-  pretty_print('<%s>%s</%s>' % (key, value, key), indent)
+  attr_str = ''
+  for attr in attrs:
+    attr_str += ' %s="%s"' % (attr, attrs[attr])
+  pretty_print('<%s%s>%s</%s>' % (key, attr_str, value, key), indent)
 
 def print_list(element, data, indent, spaces):
   if element == "sha":
@@ -31,7 +34,9 @@ def print_dict(element, data, indent, spaces):
   pretty_print('</%s>' % element, indent)
 
 def print_object(key, value, indent, spaces):
-  if isinstance(value, (bool, int, str, unicode)) or value == None:
+  if value == None:
+    pass
+  elif isinstance(value, (bool, int, str, unicode)):
     print_simple(key, value, indent)
   elif isinstance(value, dict):
     print_dict(key, value, indent, spaces)
@@ -40,7 +45,7 @@ def print_object(key, value, indent, spaces):
   else:
     raise ValueError
 
-if (len(sys.argv) == 2):
+if (__name__ == '__main__') and (len(sys.argv) == 2):
   f = open(sys.argv[1])
   data = loads('[%s]' % f.read().replace('}\n{', '},\n{'))
   f.close()
