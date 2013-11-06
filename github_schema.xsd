@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+  <xs:element name="github_data">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="events" minOccurs="1" maxOccurs="1"/>
+        <xs:element ref="repositories" minOccurs="1" maxOccurs="1"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="events">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="event" minOccurs="1" maxOccurs="unbounded"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="event">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="date" maxOccurs="1"/>
+        <xs:element ref="actor" maxOccurs="1"/>
+      </xs:sequence>
+      <xs:attribute name="repoID" use="required" type="xs:nonNegativeInteger"/>
+      <xs:attribute name="type" use="required" type="eventType"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:simpleType name="eventType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="WatchEvent" />
+      <xs:enumeration value="PushEvent" />
+      <xs:enumeration value="IssueCommentEvent" />
+      <xs:enumeration value="FollowEvent" />
+      <xs:enumeration value="GollumEvent" />
+      <xs:enumeration value="CreateEvent" />
+      <xs:enumeration value="PullRequestEvent" />
+      <xs:enumeration value="DeleteEvent" />
+      <xs:enumeration value="CommitCommentEvent" />
+      <xs:enumeration value="GistEvent" />
+      <xs:enumeration value="PullRequestReviewCommentEvent" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:element name="actor">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="login" maxOccurs="1"/>
+        <xs:element ref="name" minOccurs="0" maxOccurs="1"/>
+        <xs:element ref="email" minOccurs="0" maxOccurs="1"/>
+        <xs:element ref="location" minOccurs="0" maxOccurs="1"/>
+        <xs:element ref="blog" minOccurs="0" maxOccurs="1"/>
+      </xs:sequence>
+      <xs:attribute name="type" use="required" type="xs:NCName"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="login" type="xs:NCName"/>
+  <xs:element name="email" type="xs:string"/>
+  <xs:element name="location" type="xs:string"/>
+  <xs:element name="blog" type="xs:string"/>
+  <xs:element name="repositories">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="repository" maxOccurs="unbounded"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="repository">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="name" maxOccurs="1"/>
+        <xs:element ref="owner" maxOccurs="1"/>
+        <xs:element ref="description" minOccurs="0" maxOccurs="1"/>
+        <xs:element ref="dates" maxOccurs="1"/>
+        <xs:element ref="urls" maxOccurs="1"/>
+        <xs:element ref="languages" maxOccurs="1"/>
+        <xs:element ref="metrics" maxOccurs="1"/>
+      </xs:sequence>
+      <xs:attribute name="fork" use="required" type="xs:boolean"/>
+      <xs:attribute name="id" use="required" type="xs:nonNegativeInteger"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="owner" type="xs:NCName"/>
+  <xs:element name="description" type="xs:string"/>
+  <xs:element name="dates">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element maxOccurs="unbounded" ref="date"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="urls">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element maxOccurs="unbounded" ref="url"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="url">
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:anyURI">
+          <xs:attribute name="of" use="required" type="urlOfType"/>
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:simpleType name="urlOfType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="homepage" />
+      <xs:enumeration value="wiki" />
+      <xs:enumeration value="github" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:element name="languages">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="language" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="language" type="xs:string"/>
+  <xs:element name="metrics">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element maxOccurs="unbounded" ref="metric"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="metric">
+    <xs:complexType>
+      <xs:choice>
+        <xs:element maxOccurs="unbounded" ref="relation"/>
+        <xs:sequence>
+          <xs:element ref="value"/>
+          <xs:element ref="unit"/>
+        </xs:sequence>
+      </xs:choice>
+      <xs:attribute name="type" use="required" type="xs:NCName"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="relation">
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:nonNegativeInteger">
+          <xs:attribute name="description" use="required" type="relationType"/>
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:simpleType name="relationType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="watchers" />
+      <xs:enumeration value="forks" />
+      <xs:enumeration value="issues" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:element name="value" type="xs:integer"/>
+  <xs:element name="unit" type="xs:NCName"/>
+  <xs:element name="name" type="xs:string"/>
+  <xs:element name="date">
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:dateTime">
+          <xs:attribute name="of" type="dateOfType"/>
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:simpleType name="dateOfType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="creation" />
+      <xs:enumeration value="push" />
+    </xs:restriction>
+  </xs:simpleType>
+</xs:schema>
