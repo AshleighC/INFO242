@@ -10,8 +10,10 @@
         <body>
         <h2>5 Most Commonly Used Words</h2>
         <ul>
+            <xsl:variable name="stopwords" select="'the a and of if they then or so'" />
+            <xsl:variable name="words" select="//respository/description/tokenize(., ' ')[not(contains($stopwords, .))]" />
             <xsl:for-each-group group-by="." select="
-                for $w in //repository/description/tokenize(., '\W+') return $w">
+                for $w in $words return $w">
                 <xsl:sort select="count(current-group())" order="descending" />
                 <xsl:if test="position() lt 6">
                     <li>
@@ -20,6 +22,7 @@
                         <xsl:value-of select="count(current-group())"/>
                     </li>
                 </xsl:if>
+                
             </xsl:for-each-group>
         </ul>
         </body>
