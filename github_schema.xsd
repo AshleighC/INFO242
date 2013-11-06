@@ -38,6 +38,8 @@
       <xs:enumeration value="CommitCommentEvent" />
       <xs:enumeration value="GistEvent" />
       <xs:enumeration value="PullRequestReviewCommentEvent" />
+      <xs:enumeration value="ForkEvent" />
+      <xs:enumeration value="IssuesEvent" />
     </xs:restriction>
   </xs:simpleType>
   <xs:element name="actor">
