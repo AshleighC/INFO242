@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<github_data>
+<?xml-stylesheet type="text/xsl" href="wordFrequencyAggregator.xsl"?>
+<github_data xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:noNamespaceSchemaLocation="github_schema.xsd">
   <events>
     <event type="WatchEvent" repoID="3422939">
       <date>2013-10-23T14:00:28-07:00</date>
