@@ -8,14 +8,14 @@
                 
           </head>
         <body>
-        <h2>5 Most Commonly Used Words</h2>
+        <h2>15 Most Commonly Used Words</h2>
         <ul>
             <xsl:variable name="stopwords" select="'the a and of if they then or so none for in to is the with my'" />
             <xsl:variable name="words" select="//repository/description/tokenize(., ' ')[not(contains($stopwords, lower-case(.)))]" />
             <xsl:for-each-group group-by="." select="
                 for $w in $words return $w">
                 <xsl:sort select="count(current-group())" order="descending" />
-                <xsl:if test="position() lt 6">
+                <xsl:if test="position() lt 16">
                     <li>
                         <xsl:value-of select="current-grouping-key()"/>
                         <xsl:text> - </xsl:text>
