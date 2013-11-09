@@ -40,6 +40,9 @@
       <xs:enumeration value="PullRequestReviewCommentEvent" />
       <xs:enumeration value="ForkEvent" />
       <xs:enumeration value="IssuesEvent" />
+      <xs:enumeration value="MemberEvent" />
+      <xs:enumeration value="ReleaseEvent" />
+      <xs:enumeration value="PublicEvent" />
     </xs:restriction>
   </xs:simpleType>
   <xs:element name="actor">
@@ -54,7 +57,8 @@
       <xs:attribute name="type" use="required" type="xs:NCName"/>
     </xs:complexType>
   </xs:element>
-  <xs:element name="login" type="xs:NCName"/>
+  <!-- turns out logins can have numbers so no xs:NCName -->
+  <xs:element name="login" type="xs:string"/>
   <xs:element name="email" type="xs:string"/>
   <xs:element name="location" type="xs:string"/>
   <xs:element name="blog" type="xs:string"/>
@@ -80,7 +84,8 @@
       <xs:attribute name="id" use="required" type="xs:nonNegativeInteger"/>
     </xs:complexType>
   </xs:element>
-  <xs:element name="owner" type="xs:NCName"/>
+  <!-- owners are logins so also can have numbers... -->
+  <xs:element name="owner" type="xs:string"/>
   <xs:element name="description" type="xs:string"/>
   <xs:element name="dates">
     <xs:complexType>
