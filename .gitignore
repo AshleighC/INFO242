@@ -1,3 +1,4 @@
 *.pyc
 *.json
 raw.*
+.DS_Store
